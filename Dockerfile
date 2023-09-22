@@ -8,11 +8,11 @@ RUN go mod tidy
 
 RUN CGO_ENABLED=0 GOOS=linux GO111MODULE=on go build -a -o /go/bin/dockerize .
 
-FROM gcr.io/distroless/static:nonroot
-LABEL MAINTAINER="Jason Wilder <mail@jasonwilder.com>"
+FROM alpine:latest
 
-USER nonroot:nonroot
 COPY --from=binary /go/bin/dockerize /bin/dockerize
+
+USER 10001
 
 ENTRYPOINT ["/bin/dockerize"]
 CMD ["--help"]
